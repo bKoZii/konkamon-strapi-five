@@ -439,6 +439,37 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
   }
 }
 
+export interface ApiBookmarkBookmark extends Struct.CollectionTypeSchema {
+  collectionName: "bookmarks"
+  info: {
+    description: ""
+    displayName: "Bookmark"
+    pluralName: "bookmarks"
+    singularName: "bookmark"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private
+    description: Schema.Attribute.Text & Schema.Attribute.Required
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::bookmark.bookmark"
+    > &
+      Schema.Attribute.Private
+    name: Schema.Attribute.String & Schema.Attribute.Required
+    publishedAt: Schema.Attribute.DateTime
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private
+    url: Schema.Attribute.String & Schema.Attribute.Required
+  }
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: "categories"
   info: {
@@ -975,6 +1006,7 @@ declare module "@strapi/strapi" {
       "admin::transfer-token-permission": AdminTransferTokenPermission
       "admin::user": AdminUser
       "api::blog.blog": ApiBlogBlog
+      "api::bookmark.bookmark": ApiBookmarkBookmark
       "api::category.category": ApiCategoryCategory
       "plugin::content-releases.release": PluginContentReleasesRelease
       "plugin::content-releases.release-action": PluginContentReleasesReleaseAction
