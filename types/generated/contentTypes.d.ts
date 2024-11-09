@@ -392,7 +392,15 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
           localized: false
         }
       }>
-    categories: Schema.Attribute.Relation<"oneToMany", "api::category.category">
+    categories: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::category.category"
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
     content: Schema.Attribute.RichText &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -677,6 +685,10 @@ export interface PluginReviewWorkflowsWorkflow
       Schema.Attribute.Required &
       Schema.Attribute.Unique
     publishedAt: Schema.Attribute.DateTime
+    stageRequiredToPublish: Schema.Attribute.Relation<
+      "oneToOne",
+      "plugin::review-workflows.workflow-stage"
+    >
     stages: Schema.Attribute.Relation<
       "oneToMany",
       "plugin::review-workflows.workflow-stage"
